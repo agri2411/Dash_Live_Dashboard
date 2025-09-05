@@ -1,0 +1,15 @@
+dash
+plotly
+pandas
+google-cloud-bigquery
+db-dtypes
+google-cloud-bigquery-storage
+gunicorn
+google-auth
+flask
+python-dotenv
+flask_caching
+redis
+rq
+rq-scheduler
+pyyaml

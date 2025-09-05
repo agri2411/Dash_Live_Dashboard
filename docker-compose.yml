@@ -1,0 +1,72 @@
+# version: '3.9'
+
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "14001:14001"
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD} --port 14001
+    volumes:
+      - redis_data:/data
+
+  dash-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8050:8050"
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: python auction_dashboard.py
+    restart: unless-stopped
+
+  rq-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: rqscheduler --url redis://:${REDIS_PASSWORD}@redis:14001/0
+    depends_on:
+      - redis
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  rq-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: rqscheduler --url redis://:${REDIS_PASSWORD}@redis:14001/0 --interval 10
+    depends_on:
+      - redis
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    restart: unless-stopped
+  rq-rescheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: python schedule_jobs.py
+    depends_on:
+      - redis
+      - rq-scheduler
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    restart: unless-stopped
+    
+volumes:
+  redis_data:

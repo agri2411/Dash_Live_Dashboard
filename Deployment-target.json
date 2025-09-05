@@ -1,0 +1,10 @@
+{
+  "envs": [
+    {
+      "app_name": "auctionstats",
+      "track": "c-dev4",
+      "stack": "c",
+      "version": "1.0.0"
+    }
+  ]
+}
