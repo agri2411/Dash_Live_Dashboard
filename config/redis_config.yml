@@ -1,0 +1,9 @@
+redis:
+  host: g2-redis-dev.copart.com
+  port: 14001
+  db: 0
+  password: ${REDIS_PASSWORD}
+  socket_timeout: 5
+  socket_connect_timeout: 5
+  retry_on_timeout: true
+  client_name: g2-auctionStats
