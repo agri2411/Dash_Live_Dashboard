@@ -1,0 +1,117 @@
+
+/* .flash-update {
+  animation: pulse-highlight 1s ease;
+}
+
+@keyframes pulse-highlight {
+  0%   { background-color: #d1ffd6; }
+  100% { background-color: transparent; }
+} */
+
+/* .flash-update {
+  animation: fadeInOut 1s ease;
+}
+
+@keyframes fadeInOut {
+    0% { 
+        opacity: 1; 
+    }
+    25% { 
+        opacity: 0.8; 
+    }
+    50% { 
+        opacity: 0.5; 
+    }
+    75% { 
+        opacity: 0.8; 
+    }
+    100% { 
+        opacity: 1; 
+    }
+} */
+
+.flash-update {   
+    animation: splitflapUpdate 1s ease; 
+}
+
+@keyframes splitflapUpdate {
+    0% { 
+        transform: rotateX(0deg); 
+        opacity: 1; 
+    }
+    25% { 
+        transform: rotateX(-45deg); 
+        opacity: 0.8; 
+    }
+    50% { 
+        transform: rotateX(-90deg); 
+        opacity: 0.3; 
+    }
+    75% { 
+        transform: rotateX(-135deg); 
+        opacity: 0.8; 
+    }
+    100% { 
+        transform: rotateX(-180deg); 
+        opacity: 1; 
+    }
+}
+
+/* Option 2: Combine both effects - fade + splitflap */
+.flash-update {   
+    animation: fadeInOut 1s ease, splitflapRotate 1s ease; 
+}
+
+@keyframes fadeInOut {   
+    0%, 100% { opacity: 1; }   
+    50% { opacity: 0.2; } 
+} 
+
+@keyframes splitflapRotate {
+    0% { transform: rotateX(0deg) scale(1); }
+    25% { transform: rotateX(-30deg) scale(0.95); }
+    50% { transform: rotateX(-90deg) scale(0.9); }
+    75% { transform: rotateX(-150deg) scale(0.95); }
+    100% { transform: rotateX(-180deg) scale(1); }
+}
+
+/* Option 3: Splitflap effect specifically for tileMetric elements only */
+.flash-update {   
+    animation: fadeInOut 1s ease; 
+}
+
+.tileMetric.flash-update {   
+    animation: splitflapNumber 1s ease; 
+}
+
+@keyframes fadeInOut {   
+    0%, 100% { opacity: 1; }   
+    50% { opacity: 0; } 
+}
+
+@keyframes splitflapNumber {
+    0% { 
+        /* transform: rotateX(0deg) perspective(300px);  */
+        opacity: 1; 
+    }
+    20% { 
+        /* transform: rotateX(-20deg) perspective(300px);  */
+        opacity: 0.8; 
+    }
+    50% { 
+        /* transform: rotateX(-90deg) perspective(300px);  */
+        opacity: 0.5;
+    }
+    80% { 
+        /* transform: rotateX(-160deg) perspective(300px);  */
+        opacity: 0.8; 
+    }
+    100% { 
+        /* transform: rotateX(-180deg) perspective(300px);  */
+        opacity: 1; 
+    }
+}
+
+
+
+    
